@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>JuEunBeautify Options</title>
+  <style>
+    body {
+      background: #F5A7C7;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      width: 300px;
+      padding: 16px;
+      margin: 0;
+    }
+    h2 { margin: 0 0 16px; font-size: 18px; }
+    .row { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    label { flex: 1; }
+    input[type="number"] { width: 60px; padding: 4px; }
+    .toggle { position: relative; display: inline-block; width: 36px; height: 20px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; inset: 0; background: #ccc;
+      border-radius: 20px; cursor: pointer; transition: .3s;
+    }
+    .slider:before {
+      content: ""; position: absolute;
+      width: 14px; height: 14px; left: 3px; bottom: 3px;
+      background: white; border-radius: 50%; transition: .3s;
+    }
+    input:checked + .slider { background: #c2185b; }
+    input:checked + .slider:before { transform: translateX(16px); }
+  </style>
+</head>
+<body>
+  <h2 id="extension-title">TITLE Options</h2>
+  <div class="row">
+    <label for="disableExtension">Extension Enabled</label>
+    <label class="toggle">
+      <input type="checkbox" id="disableExtension" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div class="row">
+    <label for="appearChance">Appear Chance (%)</label>
+    <input type="number" id="appearChance" min="0" max="100" step="5" value="100">
+  </div>
+  <div class="row">
+    <label for="flipChance">Flip Chance (%)</label>
+    <input type="number" id="flipChance" min="0" max="100" step="5" value="25">
+  </div>
+  <script src="settings.js"></script>
+</body>
+</html>
