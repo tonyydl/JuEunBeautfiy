@@ -14,7 +14,8 @@ function applyOverlay(thumbnailElement, overlayImageURL, flip = false) {
     overlayImage.src = overlayImageURL;
     overlayImage.style.position = "absolute";
     overlayImage.style.top = overlayImage.style.left = "50%";
-    overlayImage.style.width = "100%";
+    overlayImage.style.height = "100%";
+    overlayImage.style.width = "auto";
     overlayImage.style.transform = `translate(-50%, -50%) ${flip ? 'scaleX(-1)' : ''}`;
     overlayImage.style.zIndex = "0";
     thumbnailElement.parentElement.insertBefore(overlayImage, thumbnailElement.nextSibling);
