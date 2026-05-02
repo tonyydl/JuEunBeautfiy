@@ -1,63 +1,65 @@
 # YouTube JuEunBeautify
 
-Overlays images of 李珠珢 (JuEun) on every YouTube video thumbnail.
+在每個 YouTube 影片縮圖上疊加 李珠珢 (JuEun) 的圖片。
 
 ![Preview](preview.png)
 
-Based on [MrBeastify-Youtube](https://github.com/MagicJinn/MrBeastify-Youtube).
+基於 [MrBeastify-Youtube](https://github.com/MagicJinn/MrBeastify-Youtube) 改作。
 
-## Install
+[English README](README-en.md)
 
-**Chrome:** Load via `chrome://extensions` → Developer mode → Load unpacked
+## 安裝
 
-**Firefox:** Load `manifest.firefox.json` via `about:debugging` → This Firefox → Load Temporary Add-on
+**Chrome：** 前往 `chrome://extensions` → 開啟開發人員模式 → 載入未封裝項目 → 選擇本專案資料夾
 
-## Prepare Images
+**Firefox：** 前往 `about:debugging` → 此 Firefox → 載入暫時性附加元件 → 選擇 `manifest.firefox.json`
 
-1. Install dependencies:
+## 準備圖片
+
+1. 安裝依賴套件：
 
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Choose a mode:
+2. 選擇模式：
 
-### Thumbnail mode — fetch YouTube cover image
+### 縮圖模式 — 抓取 YouTube 封面圖
 
 ```bash
 python prepare_images.py <youtube_url> [<youtube_url> ...]
 ```
 
-### Frames mode — extract frames from a video
+### 影片截圖模式 — 從影片中擷取畫面
 
 ```bash
-python prepare_images.py --frames <youtube_url> [options]
+python prepare_images.py --frames <youtube_url> [選項]
 ```
 
-| Option | Default | Description |
-|--------|---------|-------------|
-| `--fps 2` | 1 | Frames per second to extract |
-| `--start 1m30s` | — | Start time (supports `1m30s`, `1:30`, `90s`, `90`) |
-| `--end 2m` | — | End time |
-| `--auto 6` | — | Auto-pick N best frames (no interaction needed) |
-| `--pick 5,12,30` | — | Manually specify frame numbers to process |
-| `--model birefnet-portrait` | birefnet-portrait | rembg model to use |
+| 選項 | 預設值 | 說明 |
+|------|--------|------|
+| `--fps 2` | 1 | 每秒擷取幾張畫面 |
+| `--start 1m30s` | — | 開始時間（支援 `1m30s`、`1:30`、`90s`、`90`） |
+| `--end 2m` | — | 結束時間 |
+| `--auto 6` | — | 自動挑選 N 張最佳畫面 |
+| `--pick 5,12,30` | — | 手動指定要處理的畫面編號 |
+| `--model birefnet-portrait` | birefnet-portrait | 去背模型 |
 
-**Example:**
+**範例：**
 ```bash
 python prepare_images.py --frames https://www.youtube.com/watch?v=XXXX --start 10s --end 2m --auto 8
 ```
 
-Output: `images/1.png`, `images/2.png`, ... (transparent PNG cutouts)  
-Index: `images/count.json` is updated automatically.
+輸出：`images/1.png`、`images/2.png`、...（透明背景 PNG）  
+索引：`images/count.json` 會自動更新。
 
-## Image Format
+## 圖片格式
 
-- PNG with transparent background
-- Naming: sequential integers starting from `1.png`
-- Add image number to `images/flip_blacklist.json` if it contains text that looks wrong when mirrored
+- PNG 透明背景
+- 命名：從 `1.png` 開始的連續整數
+- 如果圖片包含文字，鏡像後會看起來怪，請將編號加入 `images/flip_blacklist.json`
 
-Example `flip_blacklist.json`:
+`flip_blacklist.json` 範例：
 ```json
 [2, 5]
 ```
