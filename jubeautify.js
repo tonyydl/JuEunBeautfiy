@@ -78,37 +78,26 @@ function getImageURL(index) {
     return chrome.runtime.getURL(`${IMAGES_PATH}${index}.png`);
 }
 
-async function checkImageExistence(index) {
-    const testedURL = getImageURL(index);
-    return fetch(testedURL).then(() => true).catch(() => false);
-}
-
 const size_of_non_repeat = 8;
 const last_indexes = Array(size_of_non_repeat).fill(-1);
 
+var imageList = [];
+
 function getRandomImageFromDirectory() {
-    let randomIndex = -1;
-    if (highestImageIndex <= size_of_non_repeat) last_indexes.fill(-1);
-    while (last_indexes.includes(randomIndex) || randomIndex < 0) {
-        randomIndex = Math.floor(Math.random() * highestImageIndex) + 1;
-    }
+    if (imageList.length <= size_of_non_repeat) last_indexes.fill(-1);
+    let pick;
+    do {
+        pick = imageList[Math.floor(Math.random() * imageList.length)];
+    } while (last_indexes.includes(pick));
     last_indexes.shift();
-    last_indexes.push(randomIndex);
-    return randomIndex;
+    last_indexes.push(pick);
+    return pick;
 }
 
-var highestImageIndex;
 async function getHighestImageIndex() {
-    const INITIAL_INDEX = 4;
-    let i = INITIAL_INDEX;
-    while (await checkImageExistence(i)) { i *= 2; }
-    let min = i <= INITIAL_INDEX ? 1 : i / 2;
-    let max = i;
-    while (min <= max) {
-        let mid = Math.floor((min + max) / 2);
-        if (await checkImageExistence(mid)) { min = mid + 1; } else { max = mid - 1; }
-    }
-    highestImageIndex = max;
+    const response = await fetch(chrome.runtime.getURL(`${IMAGES_PATH}count.json`));
+    const data = await response.json();
+    imageList = data.images || [];
 }
 
 async function GetFlipBlocklist() {

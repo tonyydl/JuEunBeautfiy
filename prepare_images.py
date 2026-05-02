@@ -93,9 +93,9 @@ def process_and_save(image: Image.Image, out_path: Path, model: str = "isnet-gen
 
 def update_count(output_dir: Path):
     all_images = [p for p in output_dir.glob("*.png") if p.stem.isdigit()]
-    count = max((int(p.stem) for p in all_images), default=0)
-    (output_dir / "count.json").write_text(json.dumps({"count": count}))
-    print(f"Updated images/count.json: {count} images")
+    indices = sorted(int(p.stem) for p in all_images)
+    (output_dir / "count.json").write_text(json.dumps({"images": indices}))
+    print(f"Updated images/count.json: {indices}")
 
 
 def next_index(output_dir: Path) -> int:
@@ -105,7 +105,7 @@ def next_index(output_dir: Path) -> int:
 
 # ── Thumbnail mode ────────────────────────────────────────────────────────────
 
-def cmd_thumbnail(urls: list[str], model: str = "isnet-general-use"):
+def cmd_thumbnail(urls: list[str], model: str = "birefnet-portrait"):
     output_dir = Path("images")
     output_dir.mkdir(exist_ok=True)
     idx = next_index(output_dir)
@@ -204,7 +204,7 @@ def auto_pick(frames: list[Path], n: int) -> list[int]:
 
 
 def cmd_frames(url: str, fps: float = 1.0, start: str = None, end: str = None,
-               pick: str = None, auto: int = None, model: str = "isnet-general-use"):
+               pick: str = None, auto: int = None, model: str = "birefnet-portrait"):
     output_dir = Path("images")
     output_dir.mkdir(exist_ok=True)
 
@@ -306,9 +306,9 @@ if __name__ == "__main__":
         fps = float(fps_val) if fps_val else 1.0
         cmd_frames(args[1], fps=fps, start=start_val, end=end_val,
                    pick=pick_val, auto=int(auto_val) if auto_val else None,
-                   model=model_val or "isnet-general-use")
+                   model=model_val or "birefnet-portrait")
     else:
         model_val, args = pop_arg(args, "--model")
-        cmd_thumbnail(args, model=model_val or "isnet-general-use")
+        cmd_thumbnail(args, model=model_val or "birefnet-portrait")
 
     print("Done.")
