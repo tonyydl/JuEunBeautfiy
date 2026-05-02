@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube JuEunBeautify",
+  "version": "1.0.0",
+  "description": "Modify YouTube thumbnails to include 李珠珢 (JuEun)",
+  "icons": { "96": "icon.png" },
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "settings.html"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["*://*.youtube.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["jubeautify.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*.png", "images/*.json"],
+      "matches": ["*://*.youtube.com/*"]
+    }
+  ]
+}
