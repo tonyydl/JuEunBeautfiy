@@ -2,6 +2,8 @@
 
 Overlays images of 李珠珢 (JuEun) on every YouTube video thumbnail.
 
+![Preview](preview.png)
+
 Based on [MrBeastify-Youtube](https://github.com/MagicJinn/MrBeastify-Youtube).
 
 ## Install
